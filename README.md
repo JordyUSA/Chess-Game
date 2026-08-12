@@ -11,7 +11,7 @@ stuck.
 
 ```bash
 npm start          # http://localhost:8000
-npm test           # 40 tests, no dependencies
+npm test           # 44 tests, no dependencies
 ```
 
 There is no build step. Open `index.html` on a static server and it runs.
@@ -126,7 +126,7 @@ The generated data is committed, so the app needs no network and no build.
 npm test
 ```
 
-40 tests. The most valuable one replays **every bundled puzzle** through the
+44 tests. The most valuable one replays **every bundled puzzle** through the
 real rules engine: each FEN parses, every ply is legal, and every `mateInN` tag
 actually ends in checkmate after that many player moves. A bad pipeline run
 fails CI instead of shipping thousands of unsolvable puzzles.
