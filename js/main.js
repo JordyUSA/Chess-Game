@@ -24,7 +24,7 @@ import {
   loadIndex, loadTier, loadDaily, puzzlesWithTheme, puzzlesByIds, makeQueue,
 } from './data.js';
 import { pickDaily, registerDailySolve, displayStreak, shareText, solvedOn } from './core/daily.js';
-import { getStreak, getProfile } from './core/store.js';
+import { getStreak } from './core/store.js';
 import { today } from './core/dates.js';
 import { themeName } from './core/explain.js';
 import { dueIds } from './core/srs.js';

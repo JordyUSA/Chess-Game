@@ -12,7 +12,7 @@ import { PuzzleSession, State, HINT } from '../../core/puzzle.js';
 import { explain, themeName } from '../../core/explain.js';
 import { status, newGame } from '../../core/rules.js';
 import { playMoveSound, sfx, haptic } from '../sound.js';
-import { announce, confetti, toast } from '../fx.js';
+import { announce, confetti } from '../fx.js';
 import { getProfile, recordSolve, pushHistory } from '../../core/store.js';
 import { icon } from '../icons.js';
 import * as srs from '../../core/srs.js';
@@ -166,11 +166,21 @@ export function renderPuzzleScreen(root, opts) {
     announce(turnLine());
   }
 
-  async function handleMove(from, to) {
+  /**
+   * @param {string} from
+   * @param {string} to
+   * @param {string} [promotion] pre-chosen promotion piece; when supplied the
+   *   picker is skipped. Hint level 3 passes it so that "play it for me" really
+   *   plays the recorded move — including an underpromotion, which the picker
+   *   would otherwise have to be answered for and could still get wrong.
+   */
+  async function handleMove(from, to, promotion) {
     if (!session || busy) return;
 
     let uci = from + to;
-    if (session.needsPromotion(from, to)) {
+    if (promotion) {
+      uci += promotion;
+    } else if (session.needsPromotion(from, to)) {
       const piece = await askPromotion(boardHost, session.sideToMove);
       if (!piece) { board.resetPiece(from); refreshHighlights(); return; }
       uci += piece;
@@ -340,8 +350,9 @@ export function renderPuzzleScreen(root, opts) {
     } else {
       setStatus('Playing the move for you.', 'warn');
       announce(`The move is ${hint.from} to ${hint.to}.`);
+      // Pass the promotion piece through so underpromotion hints work.
       // handleMove re-enables the button if more of the line remains.
-      handleMove(hint.uci.slice(0, 2), hint.uci.slice(2, 4));
+      handleMove(hint.uci.slice(0, 2), hint.uci.slice(2, 4), hint.uci[4]);
     }
   }
 

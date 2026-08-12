@@ -4,7 +4,7 @@ import { Board } from '../board.js';
 import { BoardInput } from '../input.js';
 import { newGame, applyUci, isPromotion, legalTargets, status } from '../../core/rules.js';
 import { bestMove, preload, terminate } from '../../ai/engine.js';
-import { playMoveSound, sfx, haptic } from '../sound.js';
+import { playMoveSound, haptic } from '../sound.js';
 import { announce, toast, confetti } from '../fx.js';
 import { getProfile, updatePrefs } from '../../core/store.js';
 import { icon } from '../icons.js';

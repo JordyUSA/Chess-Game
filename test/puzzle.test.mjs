@@ -138,6 +138,50 @@ describe('PuzzleSession', () => {
     assert.equal(s.hintsUsed, 2, 'but the cumulative count is kept for grading');
   });
 
+  describe('underpromotion', () => {
+    // A real bundled puzzle (X7iLj): Black must promote to a KNIGHT, forking
+    // the king and queen. Promoting to a queen loses.
+    const underPromo = {
+      id: 'X7iLj',
+      fen: '8/8/8/8/5K1p/7k/P3Q1p1/8 w - - 0 51',
+      moves: ['f4f3', 'g2g1n', 'f3f2', 'g1e2'],
+      rating: 814,
+      themes: ['advancedPawn', 'fork', 'promotion', 'underPromotion'],
+    };
+
+    test('needs a promotion choice on that move', () => {
+      const s = new PuzzleSession(underPromo);
+      s.start();
+      assert.ok(s.needsPromotion('g2', 'g1'));
+    });
+
+    test('promoting to a queen is rejected', () => {
+      const s = new PuzzleSession(underPromo);
+      s.start();
+      assert.equal(s.tryMove('g2g1q').result, 'wrong', 'the queen promotion loses here');
+    });
+
+    test('promoting to a knight is accepted', () => {
+      const s = new PuzzleSession(underPromo);
+      s.start();
+      assert.equal(s.tryMove('g2g1n').result, 'correct');
+    });
+
+    test('the hint gives back the full move including the promotion piece', () => {
+      // Regression: hint level 3 used to hand the UI only from+to. On a
+      // promotion that reopened the picker instead of playing the move, and no
+      // picker choice could produce an underpromotion the player had not
+      // already worked out — so "play it for me" silently did not.
+      const s = new PuzzleSession(underPromo);
+      s.start();
+      s.hint();
+      s.hint();
+      const h = s.hint();
+      assert.equal(h.uci, 'g2g1n');
+      assert.equal(h.uci[4], 'n', 'the promotion piece must survive');
+    });
+  });
+
   test('mateIn reads the theme tag', () => {
     assert.equal(new PuzzleSession(mateIn1).mateIn, 1);
     assert.equal(new PuzzleSession({ ...mateIn1, themes: ['fork'] }).mateIn, null);
