@@ -1,0 +1,181 @@
+/* ---------------------------------------------------------------------------
+   Design tokens.
+
+   Light is defined on bare :root. Dark is redefined twice — once under
+   prefers-color-scheme (guarded so an explicit light choice wins) and once
+   under [data-theme="dark"] — so the in-app toggle beats the OS in both
+   directions. No colour is ever defined *only* inside a media query.
+   --------------------------------------------------------------------------- */
+
+:root {
+  /* Surfaces and text */
+  --bg: #f4f3ef;
+  --surface: #fffefb;
+  --surface-2: #eae7df;
+  --surface-3: #ded9cf;
+  --ink: #16171a;
+  --ink-2: #5f6167;
+  --ink-3: #8b8d95;
+  --line: #e2ded4;
+  --line-strong: #cfc9bc;
+
+  /* Brand + semantics */
+  --accent: #2f7d63;
+  --accent-soft: #dbeee5;
+  --accent-ink: #ffffff;
+  --good: #3f9a6b;
+  --good-soft: #dcf0e4;
+  --bad: #c1503a;
+  --bad-soft: #f8e0da;
+  --warn: #bd8524;
+  --warn-soft: #faeed4;
+
+  /* Pieces (shared across board themes) */
+  --piece-w: #fcfbf7;
+  --piece-w-line: #2b2c30;
+  --piece-b: #34363c;
+  --piece-b-line: #101114;
+
+  /* Board — default "sage" theme */
+  --sq-light: #ebe7dc;
+  --sq-dark: #8fa89b;
+  --sq-sel: #f2d16b;
+  --sq-last: #e8dc9a;
+  --sq-check: #e08472;
+  --dot: rgba(20, 30, 25, 0.32);
+
+  /* Type */
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+  --font-num: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Space + shape */
+  --gap: 0.75rem;
+  --pad: 1rem;
+  --r-sm: 8px;
+  --r: 14px;
+  --r-lg: 20px;
+  --shadow-1: 0 1px 2px rgba(20, 20, 25, 0.06), 0 2px 8px rgba(20, 20, 25, 0.05);
+  --shadow-2: 0 2px 6px rgba(20, 20, 25, 0.08), 0 12px 28px rgba(20, 20, 25, 0.10);
+  --shadow-lift: 0 6px 16px rgba(20, 20, 25, 0.28);
+
+  /* Motion */
+  --t-fast: 120ms;
+  --t: 180ms;
+  --t-slow: 280ms;
+  --ease: cubic-bezier(0.32, 0.72, 0.29, 1);
+  --ease-spring: cubic-bezier(0.34, 1.42, 0.64, 1);
+
+  --board-max: 30rem;
+}
+
+/* --- Dark ---------------------------------------------------------------- */
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #131519;
+    --surface: #1b1e24;
+    --surface-2: #232730;
+    --surface-3: #2d323d;
+    --ink: #eceef3;
+    --ink-2: #a0a6b2;
+    --ink-3: #767c88;
+    --line: #2b303a;
+    --line-strong: #3a404d;
+
+    --accent: #52b892;
+    --accent-soft: #1d3a31;
+    --accent-ink: #0d1512;
+    --good: #4fb583;
+    --good-soft: #1c382a;
+    --bad: #dd6d55;
+    --bad-soft: #3d201a;
+    --warn: #d9a445;
+    --warn-soft: #3a2e14;
+
+    --piece-w: #f0eee8;
+    --piece-w-line: #1a1b1f;
+    --piece-b: #2a2c33;
+    --piece-b-line: #75798a;
+
+    --sq-light: #b9bfc4;
+    --sq-dark: #61757c;
+    --sq-sel: #c9a63f;
+    --sq-last: #9d9860;
+    --sq-check: #b95b4c;
+    --dot: rgba(12, 16, 18, 0.4);
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.24);
+    --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.34), 0 12px 28px rgba(0, 0, 0, 0.4);
+    --shadow-lift: 0 6px 18px rgba(0, 0, 0, 0.55);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #131519;
+  --surface: #1b1e24;
+  --surface-2: #232730;
+  --surface-3: #2d323d;
+  --ink: #eceef3;
+  --ink-2: #a0a6b2;
+  --ink-3: #767c88;
+  --line: #2b303a;
+  --line-strong: #3a404d;
+
+  --accent: #52b892;
+  --accent-soft: #1d3a31;
+  --accent-ink: #0d1512;
+  --good: #4fb583;
+  --good-soft: #1c382a;
+  --bad: #dd6d55;
+  --bad-soft: #3d201a;
+  --warn: #d9a445;
+  --warn-soft: #3a2e14;
+
+  --piece-w: #f0eee8;
+  --piece-w-line: #1a1b1f;
+  --piece-b: #2a2c33;
+  --piece-b-line: #75798a;
+
+  --sq-light: #b9bfc4;
+  --sq-dark: #61757c;
+  --sq-sel: #c9a63f;
+  --sq-last: #9d9860;
+  --sq-check: #b95b4c;
+  --dot: rgba(12, 16, 18, 0.4);
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.3), 0 2px 8px rgba(0, 0, 0, 0.24);
+  --shadow-2: 0 2px 6px rgba(0, 0, 0, 0.34), 0 12px 28px rgba(0, 0, 0, 0.4);
+  --shadow-lift: 0 6px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* --- Board themes (square colours only) ---------------------------------- */
+
+:root[data-board="wood"] {
+  --sq-light: #e9d7b8;
+  --sq-dark: #b07d4d;
+  --dot: rgba(60, 35, 10, 0.34);
+}
+:root[data-board="slate"] {
+  --sq-light: #dfe3e8;
+  --sq-dark: #7d8b9c;
+  --dot: rgba(20, 28, 40, 0.34);
+}
+:root[data-board="mint"] {
+  --sq-light: #e6f0e8;
+  --sq-dark: #7fb3a0;
+  --dot: rgba(15, 45, 35, 0.32);
+}
+/* Deuteranopia/protanopia-safe: separation carried by luminance, not hue. */
+:root[data-board="contrast"] {
+  --sq-light: #ffffff;
+  --sq-dark: #4a4a4a;
+  --sq-sel: #ffd400;
+  --sq-last: #b9b100;
+  --sq-check: #ff5c33;
+  --dot: rgba(0, 0, 0, 0.5);
+  --piece-w: #ffffff;
+  --piece-w-line: #000000;
+  --piece-b: #000000;
+  --piece-b-line: #ffffff;
+}

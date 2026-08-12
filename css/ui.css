@@ -1,0 +1,537 @@
+/* Buttons, cards, chips, sheets, toasts — everything that is not the board. */
+
+/* --- buttons -------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  padding: 0.55rem 1.05rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease),
+              background var(--t-fast) linear,
+              border-color var(--t-fast) linear;
+}
+.btn:hover { background: var(--surface-2); }
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+/* Inline icons carry no intrinsic size, so without this they stretch to fill
+   whatever the flex row gives them. */
+.btn > svg { width: 1.05rem; height: 1.05rem; flex: none; }
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+}
+.btn-primary:hover { filter: brightness(1.06); background: var(--accent); }
+
+.btn-ghost { background: transparent; border-color: transparent; }
+.btn-ghost:hover { background: var(--surface-2); }
+
+.btn-icon {
+  min-height: 2.4rem;
+  width: 2.4rem;
+  padding: 0;
+  border-radius: 50%;
+  border-color: transparent;
+  background: transparent;
+}
+.btn-icon:hover { background: var(--surface-2); }
+.btn-icon svg { width: 1.15rem; height: 1.15rem; }
+
+.btn-row {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.btn-row > .btn { flex: 1 1 auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:active { transform: none; }
+}
+
+/* --- cards ---------------------------------------------------------------- */
+
+.card {
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  padding: var(--pad);
+  box-shadow: var(--shadow-1);
+}
+
+.card-link {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: transform var(--t-fast) var(--ease),
+              border-color var(--t-fast) linear,
+              box-shadow var(--t-fast) linear;
+}
+.card-link:hover {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-2);
+  transform: translateY(-1px);
+}
+.card-link:active { transform: scale(0.995); }
+
+.card-icon {
+  flex: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.card-icon svg { width: 1.35rem; height: 1.35rem; }
+
+.card-body { flex: 1; min-width: 0; }
+/* These are spans (so they can live inside a button); make them stack. */
+.card-title {
+  display: block;
+  font-weight: 650;
+  font-size: 0.98rem;
+  letter-spacing: -0.01em;
+}
+.card-sub {
+  display: block;
+  font-size: 0.83rem;
+  color: var(--ink-2);
+  margin-top: 0.1rem;
+}
+.card-chev { flex: none; color: var(--ink-3); }
+.card-chev svg { width: 1.05rem; height: 1.05rem; display: block; }
+
+/* Hero card for the daily puzzle. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--r-lg);
+  padding: 1.15rem;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 130% at 100% 0%, var(--accent-soft) 0%, rgba(0, 0, 0, 0) 62%),
+    var(--surface);
+  box-shadow: var(--shadow-1);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: transform var(--t-fast) var(--ease), box-shadow var(--t-fast) linear;
+}
+.hero:hover { transform: translateY(-2px); box-shadow: var(--shadow-2); }
+.hero-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.hero-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-top: 0.15rem;
+}
+.hero-sub { font-size: 0.85rem; color: var(--ink-2); margin-top: 0.2rem; }
+.hero-flame { position: absolute; right: 1rem; top: 1rem; text-align: center; }
+.hero-flame-n {
+  font-family: var(--font-num);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+.hero-flame-l {
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+}
+
+/* --- chips / badges ------------------------------------------------------- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.26rem 0.6rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  white-space: nowrap;
+}
+.chip-accent { background: var(--accent-soft); color: var(--accent); border-color: transparent; }
+.chip-good { background: var(--good-soft); color: var(--good); border-color: transparent; }
+.chip-bad { background: var(--bad-soft); color: var(--bad); border-color: transparent; }
+.chip-warn { background: var(--warn-soft); color: var(--warn); border-color: transparent; }
+
+.chip-btn { cursor: pointer; }
+.chip-btn:hover { border-color: var(--line-strong); }
+.chip-btn[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-color: var(--accent);
+}
+
+.chip-wrap { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+.badge-count {
+  min-width: 1.4rem;
+  height: 1.4rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-num);
+}
+
+.streak-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  font-size: 0.8rem;
+  font-weight: 700;
+  font-family: var(--font-num);
+}
+
+/* --- section headings ----------------------------------------------------- */
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.4rem 0.15rem 0;
+}
+.section-title {
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.section-head .spacer { flex: 1; }
+
+.stack { display: flex; flex-direction: column; gap: 0.5rem; }
+
+/* --- puzzle screen -------------------------------------------------------- */
+
+.puzzle-head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.4rem;
+}
+.puzzle-head .spacer { flex: 1; }
+
+.turn-line {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 650;
+  font-size: 0.95rem;
+}
+.turn-dot {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--piece-w-line);
+  background: var(--piece-w);
+  flex: none;
+}
+.turn-dot.b { background: var(--piece-b); border-color: var(--piece-b-line); }
+
+.board-wrap {
+  width: 100%;
+  max-width: var(--board-max);
+  margin: 0 auto;
+}
+
+.status-bar {
+  min-height: 3.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.88rem;
+  transition: background var(--t) linear, border-color var(--t) linear;
+}
+.status-bar.is-good { background: var(--good-soft); border-color: transparent; color: var(--good); font-weight: 600; }
+.status-bar.is-bad { background: var(--bad-soft); border-color: transparent; color: var(--bad); font-weight: 600; }
+.status-bar.is-warn { background: var(--warn-soft); border-color: transparent; color: var(--warn); font-weight: 600; }
+.status-icon { flex: none; display: grid; place-items: center; }
+.status-icon svg { width: 1.15rem; height: 1.15rem; }
+.status-text { flex: 1; min-width: 0; }
+
+/* The "why it works" explainer shown after a solve. */
+.explain {
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 0.85rem 0.95rem;
+  animation: screen-in var(--t-slow) var(--ease);
+}
+.explain-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 700;
+  font-size: 0.92rem;
+  margin-bottom: 0.25rem;
+}
+.explain-head svg { width: 1.05rem; height: 1.05rem; color: var(--accent); flex: none; }
+.explain-body { font-size: 0.87rem; color: var(--ink-2); }
+.explain-more { margin-top: 0.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  .explain { animation: none; }
+}
+
+/* --- tier / theme pickers ------------------------------------------------- */
+
+.tier-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: 0.55rem;
+}
+.tier-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  padding: 0.8rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+  cursor: pointer;
+  text-align: left;
+  transition: transform var(--t-fast) var(--ease), border-color var(--t-fast) linear;
+}
+.tier-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
+.tier-name { font-weight: 650; font-size: 0.95rem; }
+.tier-meta { font-size: 0.76rem; color: var(--ink-3); font-family: var(--font-num); }
+.tier-bar {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--surface-3);
+  margin-top: 0.45rem;
+  overflow: hidden;
+}
+.tier-bar > i { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+
+/* --- stats ---------------------------------------------------------------- */
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: 0.55rem;
+}
+.stat {
+  padding: 0.8rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: var(--surface);
+}
+.stat-n {
+  font-family: var(--font-num);
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.stat-l {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink-3);
+  margin-top: 0.15rem;
+}
+
+/* --- settings sheet ------------------------------------------------------- */
+
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(14, 16, 20, 0.45);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: fade-in var(--t) linear;
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+
+.sheet {
+  width: 100%;
+  max-width: 34rem;
+  max-height: 86dvh;
+  overflow-y: auto;
+  background: var(--bg);
+  border-radius: var(--r-lg) var(--r-lg) 0 0;
+  padding: 0.75rem var(--pad) calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+  animation: sheet-up var(--t-slow) var(--ease);
+}
+@keyframes sheet-up { from { transform: translateY(14px); } to { transform: none; } }
+
+.sheet-grip {
+  width: 2.4rem;
+  height: 0.25rem;
+  border-radius: 999px;
+  background: var(--line-strong);
+  margin: 0.25rem auto 0.85rem;
+}
+.sheet-title { font-weight: 700; font-size: 1.05rem; margin-bottom: 0.75rem; }
+
+.setting {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  border-top: 1px solid var(--line);
+}
+.setting:first-of-type { border-top: 0; }
+.setting-label { flex: 1; min-width: 0; }
+.setting-name { font-weight: 600; font-size: 0.92rem; }
+.setting-hint { font-size: 0.78rem; color: var(--ink-3); }
+
+/* Accessible switch built on a real checkbox. */
+.switch { position: relative; flex: none; width: 2.9rem; height: 1.7rem; }
+.switch input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 2;
+}
+.switch span {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  background: var(--surface-3);
+  transition: background var(--t) linear;
+}
+.switch span::after {
+  content: "";
+  position: absolute;
+  top: 0.19rem;
+  left: 0.19rem;
+  width: 1.32rem;
+  height: 1.32rem;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform var(--t) var(--ease);
+}
+.switch input:checked + span { background: var(--accent); }
+.switch input:checked + span::after { transform: translateX(1.2rem); }
+.switch input:focus-visible + span { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-backdrop, .sheet { animation: none; }
+  .switch span::after { transition: none; }
+}
+
+/* --- toast ---------------------------------------------------------------- */
+
+.toast-host {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 1.25rem);
+  transform: translateX(-50%);
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  align-items: center;
+  pointer-events: none;
+}
+.toast {
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-2);
+  animation: toast-in var(--t-slow) var(--ease);
+}
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* --- confetti ------------------------------------------------------------- */
+
+.confetti-host {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 9;
+}
+.confetti-bit {
+  position: absolute;
+  width: 7px;
+  height: 11px;
+  border-radius: 1px;
+  will-change: transform, opacity;
+}
+
+/* --- empty state ---------------------------------------------------------- */
+
+.empty {
+  text-align: center;
+  padding: 2.25rem 1rem;
+  color: var(--ink-2);
+}
+.empty-icon { color: var(--ink-3); margin-bottom: 0.5rem; }
+.empty-icon svg { width: 2.2rem; height: 2.2rem; }
+.empty-title { font-weight: 650; color: var(--ink); margin-bottom: 0.2rem; }
+.empty-sub { font-size: 0.86rem; }
+
+/* --- misc ----------------------------------------------------------------- */
+
+.spinner {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin: 2rem auto;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.mono { font-family: var(--font-num); }
+.muted { color: var(--ink-2); }
+.small { font-size: 0.83rem; }

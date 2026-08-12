@@ -1,0 +1,23 @@
+{
+  "name": "Pocket Chess",
+  "short_name": "Pocket Chess",
+  "description": "Small boards, sharp tactics. A minimalist chess puzzle trainer with a daily puzzle, motif drills and spaced repetition. No ads, works offline.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f3ef",
+  "theme_color": "#2f7d63",
+  "categories": ["games", "education"],
+  "icons": [
+    { "src": "assets/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Daily puzzle", "url": "./#/daily" },
+    { "name": "Review", "url": "./#/review" },
+    { "name": "Play the computer", "url": "./#/play" }
+  ]
+}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pocket Chess</title>
+<meta name="description" content="Small boards, sharp tactics. A minimalist chess puzzle trainer with a daily puzzle, motif drills and spaced repetition. No ads, works offline.">
+<meta name="theme-color" content="#f4f3ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131519" media="(prefers-color-scheme: dark)">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/board.css">
+<link rel="stylesheet" href="css/ui.css">
+<script>
+  // Applied before first paint so the theme never flashes.
+  try {
+    var p = JSON.parse(localStorage.getItem('pc:v1:profile') || '{}');
+    if (p.prefs && p.prefs.theme && p.prefs.theme !== 'system') {
+      document.documentElement.dataset.theme = p.prefs.theme;
+    }
+    if (p.prefs && p.prefs.boardTheme) {
+      document.documentElement.dataset.board = p.prefs.boardTheme;
+    }
+  } catch (e) {}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<div id="app">
+  <header class="topbar">
+    <button class="brand" id="home-btn" aria-label="Pocket Chess — home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 45 45"><use href="#wn"></use></svg>
+      </span>
+      <span>Pocket Chess</span>
+    </button>
+    <span class="topbar-spacer"></span>
+    <span class="streak-pill" id="streak-pill" hidden></span>
+    <button class="btn btn-icon" id="settings-btn" aria-label="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="3"></circle>
+        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <main id="main" tabindex="-1"></main>
+
+  <footer class="site">
+    Puzzles from the <a href="https://database.lichess.org/" rel="noopener">Lichess open database</a> (CC0).
+    No ads, no tracking, works offline.
+  </footer>
+</div>
+
+<div class="toast-host" id="toast-host" aria-live="polite" aria-atomic="false"></div>
+<div class="sr-only" id="live-region" role="status" aria-live="polite"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
