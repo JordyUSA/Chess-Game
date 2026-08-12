@@ -5,6 +5,8 @@ Small boards, sharp tactics. A minimalist chess puzzle trainer in the spirit of
 positions, unlimited no-penalty retries, and a hint ladder that never leaves you
 stuck.
 
+**Play it: https://jordyusa.github.io/Chess-Game/**
+
 **No ads. No paywalled hints. No tracking. Works offline.**
 
 ```bash

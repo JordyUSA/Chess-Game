@@ -9,6 +9,12 @@ on:
 permissions:
   contents: read
 
+# One Pages deployment at a time. In-progress deploys are allowed to finish
+# rather than being cancelled, so a half-uploaded site never goes live.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 jobs:
   test:
     name: Test
