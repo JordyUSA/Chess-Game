@@ -27,7 +27,11 @@ jobs:
   deploy:
     name: Deploy to Pages
     needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    # workflow_dispatch is included so a deploy that failed only because Pages
+    # was not yet enabled can be re-run without an empty commit.
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     permissions:
       pages: write
