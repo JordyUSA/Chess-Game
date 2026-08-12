@@ -287,6 +287,7 @@ export function renderPuzzleScreen(root, opts) {
     }
 
     act('hint').disabled = true;
+    el('hint-label').textContent = 'Hint'; // clear any mid-ladder label
     act('next').hidden = opts.showNext === false;
     act('next').focus({ preventScroll: true });
     input.setEnabled(false);
