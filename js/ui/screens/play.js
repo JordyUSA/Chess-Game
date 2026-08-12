@@ -4,6 +4,7 @@ import { Board } from '../board.js';
 import { BoardInput } from '../input.js';
 import { newGame, applyUci, isPromotion, legalTargets, status } from '../../core/rules.js';
 import { bestMove, preload, terminate } from '../../ai/engine.js';
+import { pieceHref } from '../pieces.js';
 import { playMoveSound, haptic } from '../sound.js';
 import { announce, toast, confetti } from '../fx.js';
 import { getProfile, updatePrefs } from '../../core/store.js';
@@ -238,7 +239,7 @@ function askPromotion(boardHost, colour) {
         ${['q', 'r', 'b', 'n'].map((p) => `
           <button class="promo-btn" data-piece="${p}"
                   aria-label="${{ q: 'Queen', r: 'Rook', b: 'Bishop', n: 'Knight' }[p]}">
-            <svg viewBox="0 0 45 45" aria-hidden="true"><use href="#${colour}${p}"></use></svg>
+            <svg viewBox="0 0 45 45" aria-hidden="true"><use href="${pieceHref(colour, p)}"></use></svg>
           </button>`).join('')}
       </div>`;
     boardHost.appendChild(host);

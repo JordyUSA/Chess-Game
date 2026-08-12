@@ -66,6 +66,7 @@ const DEFAULT_PROFILE = {
   prefs: {
     theme: 'system',      // 'system' | 'light' | 'dark'
     boardTheme: 'sage',   // sage | wood | slate | mint | contrast
+    pieceSet: 'cburnett', // see PIECE_SETS in js/ui/pieces.js
     sound: true,
     haptics: true,
     focusMode: true,

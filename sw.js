@@ -9,7 +9,9 @@
  * on activate.
  */
 
-const CACHE_VERSION = 'pocket-chess-v1';
+// Bumped when shipped files change — v2 adds the bundled piece sets. Without a
+// bump, existing installs keep serving v1 and never fetch assets/pieces.svg.
+const CACHE_VERSION = 'pocket-chess-v2';
 
 const PRECACHE = [
   './',
@@ -55,6 +57,7 @@ const PRECACHE = [
   'assets/icon.svg',
   'assets/icon-192.png',
   'assets/icon-512.png',
+  'assets/pieces.svg',
 ];
 
 self.addEventListener('install', (event) => {

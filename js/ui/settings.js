@@ -4,6 +4,7 @@ import { getProfile, updatePrefs, resetAll, exportAll } from '../core/store.js';
 import { setSoundEnabled, sfx } from './sound.js';
 import { toast, shareOrCopy } from './fx.js';
 import { escapeHtml } from './screens/puzzle.js';
+import { PIECE_SETS, setById, setActiveSet, activeSetId, pieceHrefFor } from './pieces.js';
 
 const BOARD_THEMES = [
   { id: 'sage', name: 'Sage' },
@@ -55,6 +56,25 @@ export function openSettings({ onChange } = {}) {
           </button>`).join('')}
       </div>
 
+      <div class="setting" style="margin-top:.75rem">
+        <div class="setting-label">
+          <div class="setting-name">Pieces</div>
+          <div class="setting-hint">Pocket is the set that follows the board theme</div>
+        </div>
+      </div>
+      <div class="piece-grid" data-group="pieceset">
+        ${PIECE_SETS.map((s) => `
+          <button class="piece-opt" data-pieceset="${s.id}" aria-pressed="${activeSetId() === s.id}"
+                  title="${escapeHtml(`${s.name} — ${s.author}, ${s.licence}`)}">
+            <span class="piece-opt-art">
+              <svg viewBox="0 0 45 45" aria-hidden="true"><use href="${pieceHrefFor(s.id, 'w', 'n')}"></use></svg>
+              <svg viewBox="0 0 45 45" aria-hidden="true"><use href="${pieceHrefFor(s.id, 'b', 'q')}"></use></svg>
+            </span>
+            <span class="piece-opt-name">${escapeHtml(s.name)}</span>
+          </button>`).join('')}
+      </div>
+      <p class="small muted" data-el="piece-credit" style="margin-top:.4rem"></p>
+
       <div style="height:.75rem"></div>
 
       ${toggle('focusMode', 'Focus mode', 'Dim the board outside the action', prefs.focusMode !== false)}
@@ -78,6 +98,15 @@ export function openSettings({ onChange } = {}) {
   document.body.appendChild(backdrop);
   const sheet = backdrop.querySelector('.sheet');
   sheet.querySelector('[data-act="close"]')?.focus();
+
+  // CC BY 4.0 sets legally require visible attribution, and BSD requires the
+  // notice be retained — so the credit is part of the UI, not just CREDITS.md.
+  const renderCredit = () => {
+    const s = setById(activeSetId());
+    const el = sheet.querySelector('[data-el="piece-credit"]');
+    if (el) el.textContent = `${s.name} — ${s.author} · ${s.licence}`;
+  };
+  renderCredit();
 
   const close = () => {
     backdrop.remove();
@@ -106,6 +135,17 @@ export function openSettings({ onChange } = {}) {
       updatePrefs({ boardTheme: value });
       document.documentElement.dataset.board = value;
       setPressed(sheet, '[data-board]', boardBtn);
+      return;
+    }
+
+    const pieceBtn = event.target.closest('[data-pieceset]');
+    if (pieceBtn) {
+      const value = pieceBtn.dataset.pieceset;
+      updatePrefs({ pieceSet: value });
+      setActiveSet(value);
+      setPressed(sheet, '[data-pieceset]', pieceBtn);
+      renderCredit();
+      onChange?.({ rerender: true });
       return;
     }
 

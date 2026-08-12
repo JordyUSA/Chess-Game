@@ -11,6 +11,7 @@ import { BoardInput } from '../input.js';
 import { PuzzleSession, State, HINT } from '../../core/puzzle.js';
 import { explain, themeName } from '../../core/explain.js';
 import { status, newGame } from '../../core/rules.js';
+import { pieceHref } from '../pieces.js';
 import { playMoveSound, sfx, haptic } from '../sound.js';
 import { announce, confetti } from '../fx.js';
 import { getProfile, recordSolve, pushHistory } from '../../core/store.js';
@@ -418,7 +419,7 @@ function askPromotion(boardHost, colour) {
         ${['q', 'r', 'b', 'n'].map((p, i) => `
           <button class="promo-btn" data-piece="${p}" ${i === 0 ? 'autofocus' : ''}
                   aria-label="${{ q: 'Queen', r: 'Rook', b: 'Bishop', n: 'Knight' }[p]}">
-            <svg viewBox="0 0 45 45" aria-hidden="true"><use href="#${colour}${p}"></use></svg>
+            <svg viewBox="0 0 45 45" aria-hidden="true"><use href="${pieceHref(colour, p)}"></use></svg>
           </button>`).join('')}
       </div>
     `;

@@ -211,23 +211,44 @@ async function route() {
 
 // -- boot --------------------------------------------------------------------
 
-function boot() {
-  installSprite();
+/**
+ * Registers the service worker.
+ *
+ * Must not be attached behind a bare `load` listener from async code: boot()
+ * awaits the piece sprite first, by which time `load` may already have fired,
+ * and the listener would never run — silently costing offline support.
+ */
+function registerServiceWorker() {
+  if (!('serviceWorker' in navigator) || location.protocol === 'file:') return;
+  const register = () => {
+    navigator.serviceWorker.register('sw.js').catch(() => { /* offline is a bonus */ });
+  };
+  if (document.readyState === 'complete') register();
+  else window.addEventListener('load', register, { once: true });
+}
+
+async function boot() {
+  registerServiceWorker();
+
+  // Awaited so the default piece set is present for the first paint. Pocket is
+  // injected synchronously inside, so a sprite failure still leaves a playable
+  // board rather than an empty one.
+  await installSprite();
   initSound();
 
   document.getElementById('home-btn')?.addEventListener('click', () => navigate('/'));
   document.getElementById('settings-btn')?.addEventListener('click', () => {
-    openSettings({ onChange: () => refreshChrome() });
+    openSettings({
+      onChange: (change) => {
+        refreshChrome();
+        // A new piece set only reaches the board on the next render.
+        if (change?.rerender) route();
+      },
+    });
   });
 
   window.addEventListener('hashchange', route);
   route();
-
-  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('sw.js').catch(() => { /* offline is a bonus */ });
-    });
-  }
 }
 
 boot();

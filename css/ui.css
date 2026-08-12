@@ -461,6 +461,53 @@
   .switch span::after { transition: none; }
 }
 
+/* --- piece-set picker ----------------------------------------------------- */
+
+.piece-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr));
+  gap: 0.45rem;
+}
+
+.piece-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.35rem 0.45rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color var(--t-fast) linear, background var(--t-fast) linear;
+}
+.piece-opt:hover { border-color: var(--line-strong); }
+.piece-opt[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* Previews sit on a board-coloured tile so light pieces stay visible. */
+.piece-opt-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.2rem 0;
+  border-radius: 6px;
+  background: var(--sq-dark);
+}
+.piece-opt-art svg { width: 1.85rem; height: 1.85rem; display: block; }
+
+.piece-opt-name {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  text-align: center;
+  line-height: 1.2;
+}
+.piece-opt[aria-pressed="true"] .piece-opt-name { color: var(--accent); }
+
 /* --- toast ---------------------------------------------------------------- */
 
 .toast-host {

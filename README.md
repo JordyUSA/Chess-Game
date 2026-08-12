@@ -11,7 +11,7 @@ stuck.
 
 ```bash
 npm start          # http://localhost:8000
-npm test           # 44 tests, no dependencies
+npm test           # 57 tests, no dependencies
 ```
 
 There is no build step. Open `index.html` on a static server and it runs.
@@ -27,6 +27,8 @@ There is no build step. Open `index.html` on a static server and it runs.
 | **Motif drills** | Train one tactic at a time — forks, pins, skewers, back-rank mates, smothered mates and 24 more — then read *why* it worked. |
 | **Review** | Puzzles you miss come back on a spaced-repetition schedule until they stick. |
 | **Play the computer** | Five strengths, from gentle to genuinely annoying. |
+
+Seven piece sets, five board themes, light/dark, and a high-contrast board.
 
 ### Things it does that the original doesn't
 
@@ -66,11 +68,31 @@ files the browser runs.
 
 ### Design decisions worth knowing
 
-**Pieces and sounds are original.** The classic Cburnett piece set is
-GPL/CC-BY-SA, about half the Lichess piece sets are CC-BY-NC-SA, and Lichess's
-default sound effects are AGPLv3. Rather than inherit those terms, the pieces
-are hand-drawn geometric SVG (~4 KB) and every sound is synthesised at runtime
-with the Web Audio API — no audio files at all.
+**Every bundled asset is permissively licensed.** Seven piece sets ship: six
+sourced externally, plus "Pocket", hand-drawn for this project. Note that
+Cburnett is taken from **Wikimedia Commons under its BSD 3-clause option** —
+the same artwork on Lichess is redistributed under GPLv2+, which this project
+could not use. Full attribution is in
+[`assets/pieces/CREDITS.md`](assets/pieces/CREDITS.md) and in the app under
+Settings → Pieces.
+
+| Set | Author | Licence |
+|---|---|---|
+| Cburnett | Colin M.L. Burnett | BSD 3-clause |
+| Pocket | drawn for this project | MIT |
+| Chessnut | Alexis Luengas | Apache 2.0 |
+| Vector Ranks | RhosGFX | CC0 1.0 |
+| Kiwen Suwi | neverRare | CC BY 4.0 |
+| Totoy | Kosal Sen | CC BY 4.0 |
+| Papercut | Nikolay Anzarov | CC BY 4.0 |
+
+Pocket stays as the set whose colours come from CSS custom properties, so it is
+the one that follows board themes and the high-contrast accessibility theme;
+the external sets have their colours baked in.
+
+**Sounds are original too.** Lichess's default effects are AGPLv3 and most
+alternative packs are CC-BY-NC-SA, so every sound is synthesised at runtime with
+the Web Audio API — no audio files at all.
 
 **No Stockfish.** Its threaded WASM build needs `SharedArrayBuffer`, which needs
 COOP/COEP response headers, which GitHub Pages cannot send; the single-threaded
@@ -118,6 +140,27 @@ Two details in that archive cost real debugging time and are worth flagging:
 
 The generated data is committed, so the app needs no network and no build.
 
+## The piece sprite
+
+`tools/fetch-pieces.mjs` pulls the six external sets from their upstream homes
+and normalises them into one committed `assets/pieces.svg` (141 KB raw, 32 KB
+gzipped, 72 symbols). Three upstream habits have to be undone, because merging
+standalone SVG documents into one sprite makes their internals collide:
+
+1. **Different coordinate spaces** — 45, 72, 260, 800, 5871, and papercut in
+   millimetres. Each `<symbol>` keeps its own `viewBox` so `<use>` scales it.
+2. **Missing viewBoxes** — kiwen-suwi and cburnett declare only width/height. A
+   `<symbol>` without a `viewBox` does not scale at all, so one is synthesised.
+3. **Colliding internal names** — rhosgfx ships `<style>.cls-2{…}</style>` where
+   `.cls-2` is a different colour in different pieces, and kiwen-suwi gives all
+   twelve pieces `<clipPath id="a">`. The generator inlines the CSS away
+   entirely and namespaces every id to its own symbol. Without that, eleven
+   kiwen-suwi pieces were clipped by the wrong rectangle and vanished.
+
+```bash
+node tools/fetch-pieces.mjs   # refetch and regenerate the sprite
+```
+
 ---
 
 ## Testing
@@ -126,14 +169,16 @@ The generated data is committed, so the app needs no network and no build.
 npm test
 ```
 
-44 tests. The most valuable one replays **every bundled puzzle** through the
+57 tests. The most valuable one replays **every bundled puzzle** through the
 real rules engine: each FEN parses, every ply is legal, and every `mateInN` tag
 actually ends in checkmate after that many player moves. A bad pipeline run
 fails CI instead of shipping thousands of unsolvable puzzles.
 
 The rest cover the session state machine (wrong-move recovery, alternative
-mates, the hint ladder), Leitner scheduling, and date arithmetic across DST,
-month and year boundaries.
+mates, the hint ladder), Leitner scheduling, date arithmetic across DST, month
+and year boundaries, and the piece sprite — every symbol has a viewBox, no id
+appears twice, no reference dangles, and every bundled set is credited with a
+licence we can actually ship.
 
 ---
 
@@ -141,5 +186,7 @@ month and year boundaries.
 
 MIT for this project's code. Puzzles are CC0 from Lichess. Chess rules by
 [chess.js](https://github.com/jhlywa/chess.js), BSD-2-Clause, vendored with its
-licence in `vendor/`. Piece artwork, sound design, and everything else was made
+licence in `vendor/`. Piece artwork is credited in
+[`assets/pieces/CREDITS.md`](assets/pieces/CREDITS.md) — BSD, Apache 2.0, CC0
+and CC BY 4.0. Sound design, the Pocket piece set, and everything else was made
 for this project.
