@@ -1,0 +1,98 @@
+{
+  "v": 1,
+  "generated": "2026-08-12",
+  "source": "lichess.org open database (CC0)",
+  "total": 6465,
+  "tiers": [
+    {
+      "tier": 1,
+      "name": "Warm-up",
+      "file": "data/puzzles/tier-1.json",
+      "count": 1380,
+      "rating": [
+        0,
+        999
+      ],
+      "bytes": 123405
+    },
+    {
+      "tier": 2,
+      "name": "Easy",
+      "file": "data/puzzles/tier-2.json",
+      "count": 1562,
+      "rating": [
+        1000,
+        1399
+      ],
+      "bytes": 147867
+    },
+    {
+      "tier": 3,
+      "name": "Medium",
+      "file": "data/puzzles/tier-3.json",
+      "count": 1446,
+      "rating": [
+        1400,
+        1799
+      ],
+      "bytes": 141064
+    },
+    {
+      "tier": 4,
+      "name": "Hard",
+      "file": "data/puzzles/tier-4.json",
+      "count": 1255,
+      "rating": [
+        1800,
+        2199
+      ],
+      "bytes": 124549
+    },
+    {
+      "tier": 5,
+      "name": "Brutal",
+      "file": "data/puzzles/tier-5.json",
+      "count": 822,
+      "rating": [
+        2200,
+        9999
+      ],
+      "bytes": 83135
+    }
+  ],
+  "daily": {
+    "file": "data/daily.json",
+    "count": 400
+  },
+  "themes": {
+    "advancedPawn": 1175,
+    "defensiveMove": 749,
+    "fork": 673,
+    "promotion": 622,
+    "quietMove": 569,
+    "exposedKing": 423,
+    "deflection": 402,
+    "sacrifice": 399,
+    "skewer": 323,
+    "zugzwang": 282,
+    "pin": 282,
+    "attraction": 280,
+    "discoveredAttack": 231,
+    "hangingPiece": 216,
+    "backRankMate": 185,
+    "clearance": 161,
+    "doubleCheck": 130,
+    "interference": 129,
+    "trappedPiece": 128,
+    "capturingDefender": 127,
+    "intermezzo": 124,
+    "xRayAttack": 123,
+    "arabianMate": 121,
+    "hookMate": 119,
+    "dovetailMate": 116,
+    "smotheredMate": 114,
+    "anastasiaMate": 112,
+    "underPromotion": 112,
+    "doubleBishopMate": 110
+  }
+}
